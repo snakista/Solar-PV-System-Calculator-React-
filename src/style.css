@@ -3,3 +3,13 @@ h6 {
   margin-right: auto;
   margin-bottom: 15px;
 }
+.myimg {
+  width: 80px;
+  height: 70px;
+  margin: auto;
+}
+.dangertxt {
+  color: red;
+  text-decoration: red;
+  font-weight: bold;
+}
