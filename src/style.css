@@ -13,3 +13,15 @@ h6 {
   text-decoration: red;
   font-weight: bold;
 }
+.successtxt {
+  color: green;
+  margin: auto;
+}
+.cntr {
+  display: block;
+  margin: auto;
+  width: auto;
+}
+.imp {
+  font-weight: 700;
+}

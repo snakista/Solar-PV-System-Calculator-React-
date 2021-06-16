@@ -11,18 +11,18 @@ function App(){
   const [frt,setFrt]=useState(24);
   const [updated,setUpdated]=useState(false);
 
-  const [bulb,setBulb]=useState(1);
-  const [tube,setTube]=useState(1);
-  const [fan,setFan]=useState(1);
-  const [led,setLed]=useState(1);
-  const [crt,setCrt]=useState(1);
-  const [fridge,setFridge]=useState(1);
+  const [bulb,setBulb]=useState(0);
+  const [tube,setTube]=useState(0);
+  const [fan,setFan]=useState(0);
+  const [led,setLed]=useState(0);
+  const [crt,setCrt]=useState(0);
+  const [fridge,setFridge]=useState(0);
   const bulbR=10,tubeR=36,fanR=70,ledR=62,crtR=125,fridgeR=45.66;
   const [totalConsumption,setTotalConsumption]=useState(0);
   const [solarneeded,setSolarneeded]=useState(0);
   const [sizeofinverter,setSizeofinverter]=useState(0);
   const [sizeofbattery,setSizeofbattery]=useState(0);
-  const [sizeofcontroller,setSizeofcontroller]=useState(0);
+  const [costOfGrid,setCostOfGrid]=useState(0);
 
   const handleSubmit=(e)=>{
     setUpdated(true);
@@ -30,16 +30,17 @@ function App(){
     let pcd=(bulbR*bt*bulb+tubeR*tt*tube+fanR*ft*fan+ledR*ledt*led+crtR*crtt*crt+fridgeR*fridge*frt);
     let pvPannelEnergy=pcd*1.3;
     let wpofPanel=pvPannelEnergy/4.32;
-    let pvNeeded=wpofPanel/150;
+    let pvNeeded=wpofPanel/330;
     let inverterSize=(bulbR*bulb+tubeR*tube+fanR*fan+ledR*led+crtR*crt+fridgeR*fridge);
     inverterSize=inverterSize*1.3;
-    let batteryRating=(pcd*5)/(0.85*0.6*12);
-    let controllerSize=8.9*pvNeeded*1.3;
+    let batteryRating=(pcd*3)/(0.85*0.6*12);
+    let costgrid=inverterSize*1.2*80;
+    costgrid=costgrid/1.3;
     setTotalConsumption(pcd.toFixed(2));
     setSolarneeded(pvNeeded.toFixed(0));
     setSizeofinverter(inverterSize.toFixed(2));
     setSizeofbattery(batteryRating.toFixed(0));
-    setSizeofcontroller(controllerSize.toFixed(2));
+    setCostOfGrid(costgrid.toFixed(2));
     setTimeout(()=>{
       setUpdated(false);
     },2000);
@@ -165,27 +166,30 @@ function App(){
       <br></br><br></br>
       <div className="row">
           <div className="col"><h6>Daily total consumption in watt-hrs:</h6></div>
-          <div className="col"><input type="text" disabled="disabled" value={totalConsumption+' W-hr/day'}></input></div>
+          <div className="col"><input className="cntr" type="text" disabled="disabled" value={totalConsumption+' W-hr/day'}></input></div>
+          <div className="col"><p className="successtxt"></p></div>
       </div>
       <div className="row">
         <div className="col">
         <h6>No of Solar panel needed: </h6>
         </div>
-        <div className="col"><input type="text" disabled="disabled" value={solarneeded+' panels'}></input></div>
+        <div className="col"><input className="cntr" type="text" disabled="disabled" value={solarneeded+' panels'}></input></div>
+        <div className="col"><p className="successtxt">[Specifications: 330 watt solar panels. 14-21.6 volts]</p></div>
       </div>
       <div className="row">
         <div className="col"><h6>Size of Inverter: </h6></div>
-        <div className="col"><input type="text" disabled="disabled" value={sizeofinverter+' watts or greater'}></input></div>
+        <div className="col"><input className="cntr" type="text" disabled="disabled" value={sizeofinverter+' watts or greater'}></input></div>
+        <div className="col"><p className="successtxt">[Specifications: {sizeofinverter} watts, 12-volt solar inverters.]</p></div>
       </div>
       <div className="row">
         <div className="col"><h6>Size of Battery: </h6></div>
-        <div className="col"><input type="text" disabled="disabled" value={sizeofbattery+' Ah for 5 days autonomy'}></input></div>
+        <div className="col"><input className="cntr" type="text" disabled="disabled" value={sizeofbattery+' Ah for 3 days autonomy'}></input></div>
+        <div className="col"><p className="successtxt">[Specifications: 12V, {sizeofbattery} Ah, for 3day autonomy]</p></div>
       </div>
       <div className="row">
-        <div className="col">
-          <h6>Size of Solar charge controller: </h6>
-        </div>
-        <div className="col"><input type="text" disabled="disabled" value={sizeofcontroller+' Amp or greater'}></input></div>
+        <div className="col"><h6 className="imp">Total cost of grid: </h6></div>
+        <div className="col"><input className="cntr" type="text" disabled="disabled" value={costOfGrid+' Rs'}></input></div>
+        <div className="col"><p className="successtxt"></p></div>
       </div>
       </div>
 
